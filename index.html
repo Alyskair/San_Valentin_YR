@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+  <title>Feliz San Valentín</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Great+Vibes&display=swap');
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Great Vibes', cursive;
+      background-color: #f1e3d3;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .valentines-day {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .envelope {
+      position: relative;
+      filter: drop-shadow(0 0 25px rgba(0, 0, 0, 0.3));
+      width: 360px;
+      height: 240px;
+    }
+
+    .envelope:before {
+      content: "";
+      position: absolute;
+      width: 254px;
+      height: 254px;
+      background-color: #ff9494;
+      transform: rotate(-45deg);
+      border-radius: 0 15px 0 0;
+      left: -37px;
+      top: -82px;
+    }
+
+    .envelope:after {
+      content: "";
+      position: absolute;
+      background-color: #ff9494;
+      width: 360px;
+      height: 225px;
+      left: -90px;
+      top: 45px;
+    }
+
+    .heart {
+      position: relative;
+      background-color: #e01911;
+      display: inline-block;
+      height: 180px;
+      top: 50px;
+      transform: rotate(-45deg);
+      width: 180px;
+      filter: drop-shadow(0 -10px 25px rgba(0, 0, 0, 0.3));
+      transition: 0.5s;
+    }
+
+    .heart:before,
+    .heart:after {
+      content: "";
+      background-color: #e01911;
+      border-radius: 50%;
+      height: 180px;
+      width: 180px;
+      position: absolute;
+    }
+
+    .heart:before { top: -100px; left: 0; }
+    .heart:after { left: 100px; top: 0; }
+
+    .front {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-right: 190px solid #fbd2d2;
+      border-top: 113px solid transparent;
+      border-bottom: 113px solid transparent;
+      top: 44px;
+      left: 80px;
+      z-index: 4;
+    }
+
+    .front:before {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-left: 190px solid #fbd2d2;
+      border-top: 113px solid transparent;
+      border-bottom: 113px solid transparent;
+      top: -113px;
+      left: -170px;
+    }
+
+    .front:after {
+      width: 0;
+      height: 0;
+      position: absolute;
+      content: "";
+      border-bottom: 150px solid #fce7e9;
+      border-right: 180px solid transparent;
+      border-left: 180px solid transparent;
+      top: -36px;
+      left: -170px;
+    }
+
+    .text {
+      position: absolute;
+      font-family: 'Cormorant Garamond', serif;
+      letter-spacing: 3px;
+      text-align: center;
+      color: white;
+      z-index: 2;
+      top: 80px;
+      left: 15px;
+      transition: 0.5s;
+    }
+
+    .valentines-day:hover .heart {
+      transform: translateY(-50px) rotate(-45deg);
+    }
+
+    .valentines-day:hover .text {
+      transform: translateY(-50px);
+    }
+
+    /* Card */
+    #card {
+      height: 520px;
+      width: 820px;
+      margin: 5em auto;
+      position: fixed;
+      top: -15px;
+      left: 25%;
+      display: flex;
+      visibility: hidden;
+      z-index: 50;
+      background: transparent;
+    }
+
+    .side {
+      background: #fff;
+      height: 580px;
+      width: 410px;
+      padding: 20px;
+    }
+
+    .side.one {
+      width: 330px;
+      transform: skew(10deg, 20deg);
+      background: linear-gradient(90deg, #fff, #fff 40%, #eee);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .side.two {
+      transform: skew(10deg, -15deg);
+      background: #fff;
+      overflow: auto;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .date {
+      text-align: right;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    #card p {
+      font-size: 1.05em;
+      text-align: justify;
+      line-height: 1.6em;
+    }
+
+    .proposal {
+      text-align: center;
+      margin-top: 25px;
+      font-family: 'Great Vibes', cursive;
+    }
+
+    .proposal h3 {
+      margin-bottom: 15px;
+      color: #c9184a;
+      font-size: 1.8em;
+    }
+
+    .proposal-options {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .small-box {
+      background: #ffd6d6;
+      border: 2px solid #ff8a8a;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      user-select: none;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .small-box:hover {
+      transform: scale(1.05);
+    }
+
+    .side.one .fa-heart {
+      font-size: 8em;
+      color: red;
+      animation: pulseHeart 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseHeart {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.2); }
+    }
+
+    /* Gallery */
+    #gallery {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(180deg, #f8f0ef 0%, #fff 100%);
+      display: none;
+      padding: 40px;
+      box-sizing: border-box;
+      overflow: auto;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 300px;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: rotate(-3deg);
+    }
+
+    .gallery-item.img2 img { transform: rotate(4deg); }
+    .gallery-item.img3 img { transform: rotate(-6deg); }
+    .gallery-item.img4 img { transform: rotate(6deg); }
+
+    .controls { text-align: center; margin-top: 20px; }
+
+    .btn {
+      background: #ff9aa2;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- Presentación -->
+  <div class="valentines-day" id="presentation">
+    <div class="envelope">
+      <div class="heart"></div>
+      <div class="front"></div>
+      <div class="text">¡FELIZ DÍA DE<br>SAN VALENTÍN!</div>
+    </div>
+  </div>
+
+  <!-- Carta -->
+  <div id="card">
+    <div class="side one">
+      <i class="fas fa-heart"></i>
+    </div>
+    <div class="side two">
+
+      <div class="date">14 de febrero de 2026<br>Panamá</div>
+
+      <p><strong>Para:</strong> Yarielis Román</p>
+      <p><em>Mi Reina Hermosa,</em></p>
+
+      <p>Hoy celebramos nuestro primer San Valentín juntos, y quiero aprovechar este momento para decirte lo especial que eres para mí. La paz que siento al tenerte cerca, lo hermosa e inteligente que eres.</p>
+
+      <p>Gracias por ser mi compañera y por permitirme compartir mi vida contigo. Espero que este sea solo el primero de muchos San Valentines que celebremos juntos, siempre recordando lo afortunado que soy de tenerte.</p>
+
+      <p>¡Feliz San Valentín!</p>
+
+      <p>Con todo mi cariño,<br><strong>Enrique Rivas</strong></p>
+
+      <div class="proposal">
+        <h3>¿Serias siempre mi valentin?</h3>
+        <div class="proposal-options">
+          <div class="small-box" id="yes1">Sí</div>
+          <div class="small-box" id="yes2">Yes</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Galería -->
+  <div id="gallery">
+    <h2 style="text-align:center; font-family: 'Cormorant Garamond', serif;">Nuestra galería</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item img1"><img src="assets/img/us.jpg" alt="us"></div>
+      <div class="gallery-item img2"><img src="assets/img/us1.jpg" alt="us1"></div>
+      <div class="gallery-item img3"><img src="assets/img/us9.jpg" alt="us2"></div>
+      <div class="gallery-item img4"><img src="assets/img/us10.jpg" alt="us3"></div>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="back">Regresar</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+
+      function openCard() {
+        $('#presentation').fadeOut(300, function () {
+          $('#card').css({ 'visibility': 'visible', 'opacity': 0, 'transform': 'scale(0.1)' });
+          $('#card').animate({ 'opacity': 1 }, {
+            duration: 800,
+            step: function (now) {
+              var scale = 1 + Math.sin(now * Math.PI) * 0.05;
+              $(this).css('transform', 'scale(' + scale + ')');
+            }
+          });
+        });
+      }
+
+      $('#presentation').on('click', function (e) {
+        e.preventDefault();
+        openCard();
+      });
+
+      $('#yes1, #yes2').on('click', function () {
+        $('#card').fadeOut(300, function () {
+          $('#gallery').fadeIn(400);
+        });
+      });
+
+      $('#back').on('click', function () {
+        $('#gallery').fadeOut(300, function () {
+          $('#card').fadeIn(400);
+        });
+      });
+
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+</body>
+
+</html>
